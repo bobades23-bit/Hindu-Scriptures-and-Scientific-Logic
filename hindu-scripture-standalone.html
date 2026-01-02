@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hindu Scriptures & Scientific Logic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-orange-50 via-white to-blue-50 min-h-screen">
+    <div id="app"></div>
+
+    <script>
+        const topics = [
+            {
+                id: 1,
+                title: "Cosmic Time Scales",
+                scripture: "Bhagavad Gita & Puranas",
+                concept: "The concept of Kalpa (4.32 billion years) remarkably aligns with Earth's geological age of 4.54 billion years.",
+                verse: "A thousand ages in Thy sight are like an evening gone - Similar to modern understanding of cosmic time scales",
+                science: "Modern cosmology confirms the universe is approximately 13.8 billion years old, and ancient Hindu texts were among the first to conceptualize such vast time scales.",
+                category: "Cosmology"
+            },
+            {
+                id: 2,
+                title: "Atomic Theory",
+                scripture: "Vaisheshika Sutra",
+                concept: "Kanada's atomic theory (600 BCE) proposed that matter consists of indivisible particles called 'anu' (atoms).",
+                verse: "Every object of creation is made of atoms which in turn connect with each other to form molecules",
+                science: "Modern atomic theory developed in the 19th century confirms matter is composed of atoms that combine to form molecules, validating Kanada's ancient insights.",
+                category: "Physics"
+            },
+            {
+                id: 3,
+                title: "Consciousness & Quantum Physics",
+                scripture: "Upanishads",
+                concept: "The observer's role in creating reality parallels quantum mechanics' measurement problem.",
+                verse: "The universe is a projection of consciousness - Mandukya Upanishad",
+                science: "Quantum physics shows that observation affects reality at the subatomic level, echoing Vedantic ideas about consciousness and reality.",
+                category: "Quantum Physics"
+            },
+            {
+                id: 4,
+                title: "Relativity of Time",
+                scripture: "Bhagavad Gita",
+                concept: "Different realms experience time differently, similar to Einstein's relativity.",
+                verse: "What is night for all beings is the time of awakening for the self-controlled",
+                science: "Einstein's theory of relativity shows time is relative and depends on the observer's frame of reference and gravitational fields.",
+                category: "Physics"
+            },
+            {
+                id: 5,
+                title: "Interconnectedness of All Things",
+                scripture: "Isha Upanishad",
+                concept: "Everything in the universe is interconnected and interdependent.",
+                verse: "All this is pervaded by the Lord",
+                science: "Quantum entanglement and ecology demonstrate how everything in the universe is fundamentally connected and influences each other.",
+                category: "Systems Theory"
+            },
+            {
+                id: 6,
+                title: "Cyclical Universe",
+                scripture: "Bhagavad Gita",
+                concept: "The universe undergoes endless cycles of creation and dissolution.",
+                verse: "At the end of a kalpa, all beings return to My nature, and at the beginning of another kalpa, I create them again",
+                science: "Some modern cosmological theories propose cyclical universe models, including the Big Bounce theory and oscillating universe models.",
+                category: "Cosmology"
+            },
+            {
+                id: 7,
+                title: "Meditation & Neuroplasticity",
+                scripture: "Yoga Sutras & Upanishads",
+                concept: "Meditation can transform the mind and consciousness.",
+                verse: "Yoga is the cessation of the fluctuations of the mind - Yoga Sutras",
+                science: "Neuroscience research confirms meditation physically changes brain structure (neuroplasticity), improving emotional regulation and cognitive function.",
+                category: "Neuroscience"
+            },
+            {
+                id: 8,
+                title: "Energy & Matter Equivalence",
+                scripture: "Bhagavad Gita",
+                concept: "Matter and energy are different manifestations of the same underlying reality.",
+                verse: "Earth, water, fire, air, ether, mind, intellect, and ego - these are the eight divisions of My material nature",
+                science: "Einstein's E=mc² demonstrates that matter and energy are interchangeable, two forms of the same fundamental reality.",
+                category: "Physics"
+            },
+            {
+                id: 9,
+                title: "Sound & Vibration as Foundation",
+                scripture: "Upanishads & Vedas",
+                concept: "The universe originated from primordial sound (Om/Aum).",
+                verse: "In the beginning was Brahman, with whom was the Word - Vedas",
+                science: "String theory suggests the universe is made of vibrating strings of energy, and sound waves played a crucial role in cosmic structure formation.",
+                category: "Physics"
+            },
+            {
+                id: 10,
+                title: "Embryology & Development",
+                scripture: "Garbha Upanishad",
+                concept: "Detailed descriptions of fetal development stages.",
+                verse: "Describes seven stages of embryonic development with remarkable accuracy",
+                science: "Modern embryology confirms many of the developmental stages described in ancient texts, including tissue differentiation and organ formation.",
+                category: "Biology"
+            }
+        ];
+
+        let selectedTopic = null;
+        let searchTerm = '';
+
+        function render() {
+            const app = document.getElementById('app');
+            
+            const filteredTopics = topics.filter(topic =>
+                topic.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                topic.scripture.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                topic.category.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            const categories = [...new Set(topics.map(t => t.category))];
+
+            if (!selectedTopic) {
+                app.innerHTML = `
+                    <div class="max-w-6xl mx-auto p-6">
+                        <!-- Header -->
+                        <div class="text-center mb-8">
+                            <div class="flex items-center justify-center gap-3 mb-4">
+                                <svg class="w-10 h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                                <h1 class="text-4xl font-bold text-gray-800">Hindu Scriptures & Scientific Logic</h1>
+                                <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                                </svg>
+                            </div>
+                            <p class="text-gray-600 text-lg">Exploring Ancient Wisdom Through Modern Science</p>
+                        </div>
+
+                        <!-- Search Bar -->
+                        <div class="mb-8">
+                            <div class="relative">
+                                <svg class="absolute left-4 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                                <input
+                                    type="text"
+                                    placeholder="Search topics, scriptures, or categories..."
+                                    class="w-full pl-12 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:border-orange-400 focus:outline-none"
+                                    value="${searchTerm}"
+                                    oninput="searchTerm = this.value; render();"
+                                />
+                            </div>
+                        </div>
+
+                        <!-- Topics Grid -->
+                        <div class="grid md:grid-cols-2 gap-6">
+                            ${filteredTopics.map(topic => `
+                                <div
+                                    onclick="selectedTopic = topics.find(t => t.id === ${topic.id}); render();"
+                                    class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer border-2 border-transparent hover:border-orange-300 p-6"
+                                >
+                                    <div class="flex items-start justify-between mb-3">
+                                        <h3 class="text-xl font-bold text-gray-800">${topic.title}</h3>
+                                        <svg class="w-6 h-6 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </div>
+                                    <div class="inline-block px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium mb-3">
+                                        ${topic.category}
+                                    </div>
+                                    <p class="text-gray-600 mb-3">${topic.concept}</p>
+                                    <p class="text-sm text-blue-600 font-medium">Source: ${topic.scripture}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <!-- Category Filter -->
+                        <div class="mt-8 text-center">
+                            <p class="text-gray-600 mb-3">Filter by Category:</p>
+                            <div class="flex flex-wrap justify-center gap-2">
+                                ${categories.map(cat => `
+                                    <button
+                                        onclick="searchTerm = '${cat}'; render();"
+                                        class="px-4 py-2 bg-white rounded-full border-2 border-gray-200 hover:border-orange-400 hover:bg-orange-50 transition-all"
+                                    >
+                                        ${cat}
+                                    </button>
+                                `).join('')}
+                                ${searchTerm ? `
+                                    <button
+                                        onclick="searchTerm = ''; render();"
+                                        class="px-4 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-all"
+                                    >
+                                        Clear Filter
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                app.innerHTML = `
+                    <div class="max-w-6xl mx-auto p-6">
+                        <div class="bg-white rounded-xl shadow-2xl p-8">
+                            <button
+                                onclick="selectedTopic = null; render();"
+                                class="mb-6 text-orange-600 hover:text-orange-700 font-medium flex items-center gap-2"
+                            >
+                                ← Back to Topics
+                            </button>
+
+                            <div class="inline-block px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-medium mb-4">
+                                ${selectedTopic.category}
+                            </div>
+
+                            <h2 class="text-3xl font-bold text-gray-800 mb-6">${selectedTopic.title}</h2>
+
+                            <div class="space-y-6">
+                                <!-- Scripture Section -->
+                                <div class="bg-orange-50 rounded-lg p-6 border-l-4 border-orange-500">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                        </svg>
+                                        <h3 class="text-lg font-bold text-gray-800">Ancient Scripture</h3>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-2">Source: ${selectedTopic.scripture}</p>
+                                    <p class="text-gray-700 italic mb-3">"${selectedTopic.verse}"</p>
+                                    <p class="text-gray-800">${selectedTopic.concept}</p>
+                                </div>
+
+                                <!-- Science Section -->
+                                <div class="bg-blue-50 rounded-lg p-6 border-l-4 border-blue-500">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                                        </svg>
+                                        <h3 class="text-lg font-bold text-gray-800">Modern Scientific Understanding</h3>
+                                    </div>
+                                    <p class="text-gray-800">${selectedTopic.science}</p>
+                                </div>
+
+                                <!-- Connection -->
+                                <div class="bg-gradient-to-r from-orange-50 to-blue-50 rounded-lg p-6 border-2 border-purple-200">
+                                    <h3 class="text-lg font-bold text-gray-800 mb-3">The Connection</h3>
+                                    <p class="text-gray-800">
+                                        This remarkable parallel between ancient Hindu philosophical thought and modern scientific discovery
+                                        demonstrates how profound contemplation and observation can lead to universal truths that transcend
+                                        time and methodology.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        render();
+    </script>
+</body>
+</html>
